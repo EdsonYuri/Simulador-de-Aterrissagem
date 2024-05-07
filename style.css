@@ -1,0 +1,17 @@
+main{
+    display: flex;
+    justify-content: center;
+}
+
+#nave{
+    background-color: blue;
+    display: inline-block;
+    position: absolute;
+    user-select: none;
+}
+
+#informaçoes{
+    display: absolute;
+    top: 0;
+    left: 0;
+}
