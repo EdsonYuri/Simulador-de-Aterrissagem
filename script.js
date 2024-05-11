@@ -1,49 +1,33 @@
-let nave = document.getElementById('nave')
-
-let altitude = 300
-let combustivel = 50
+const nave = document.getElementById('nave')
 let velocidade = 0
-let aceleração = 0
 
-let estadoMotor = false
+let tempo = Date.now()
 
-let intervalo;
+// const aceleracao = -3 * (10 ** (-3)) // aceleração = 300px por segundo ao quadrado
+const aceleracao = -24 * 300 / (1000) ** 2 // aceleração = 1.6 * 300px por segundo ao quadrado
 
-document.addEventListener('mousedown', () => {
-    estadoMotor = true
-    nave.style.backgroundColor = 'red'
-})
-document.addEventListener('mouseup', () => {
-    estadoMotor = false
-    nave.style.backgroundColor = 'blue'
-})
+const RecuperaAlturaDaNave = () => {
+    const { bottom } = getComputedStyle(nave) //recupera o valor da propriedade bottom da nave
 
-const controleNave = () => {
-    if(combustivel <= 0) estadoMotor = false
-    if (estadoMotor) {
-        aceleração = 0.2
-        combustivel--
-    } else {
-        aceleração = -0.3
-    }
-
-    document.getElementById('velocidade').innerHTML = velocidade.toFixed(2)
-    document.getElementById('combustivel').innerHTML = combustivel
-
-    velocidade += aceleração
-    altitude += velocidade
-
-    if (altitude <= 0) {
-        if (velocidade <= -2.4) {
-            alert('nave explodiu')
-        } else {
-            alert('pouso realizado com sucesso') 
-        }
-        clearInterval(intervalo)
-    }
-
-    altitude--
-    nave.style.top = (300 - altitude) + 'px'
+    let alturaDaNave = +bottom.replace("px", "")
+    return alturaDaNave //retorna o valor de bottom convertido em número que corresponde a altura da nave
 }
 
-intervalo = setInterval(controleNave,100)
+//S = S0 + vt + 0.5 * at^2
+const novaAlturaDaNave = (S0, v, t) => S0 + v * t + 0.5 * aceleracao * (t ** 2) // calcula a nova altura da nave
+
+setInterval(() => {
+    let tempoAtual = Date.now()
+    let intervaloDeTempo = tempoAtual - tempo
+    tempo = tempoAtual
+
+    console.log(intervaloDeTempo)
+
+    const altura = RecuperaAlturaDaNave()
+
+    velocidade += aceleracao * intervaloDeTempo // atualiza a velocidade 
+
+    const novaAltura = novaAlturaDaNave(altura, velocidade, intervaloDeTempo) // calcula a nova altura
+
+    nave.style.bottom = `${Math.max(novaAltura, 0)}px` // atualiza a altura da nave no estilo, não permitindo que ela vá abaixo de 0
+}, 1)
