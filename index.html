@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Simulador</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
+    <div id="selecao">
         <button class="planetas" value="9.8">Terra</button>
         <button class="planetas" value="1.6">Lua</button>
         <button class="planetas" value="3.71">Marte</button>
         <!--<button class="planeta" value="24.79">Jupiter</button>-->
-        <button class="planetas" value="10.44">Saturno</button>
+        <!--<button class="planetas" value="10.44">Saturno</button>-->
         <button class="planetas" value="8.87">Venus</button>
+
+        <div id="personalizada">
+                <input type="text" id="aceleracaoPersonalizada">
+                <button type="submit" onclick="aceleracaoPersonalizada()">Simular</button>
+        </div>
     </div>
     
     <div id="nave">

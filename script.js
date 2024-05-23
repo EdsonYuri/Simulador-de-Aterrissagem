@@ -1,5 +1,6 @@
 const nave = document.getElementById('nave')
 const body = document.querySelector('body')
+
 let velocidade = 0
 let aceleracaoGravidade = 0;
 let aceleracao = 0;
@@ -11,12 +12,28 @@ for (let i = 0; i <= planetaSelecionado.length - 1; i++) {
         aceleracaoGravidade = Number(planetaSelecionado[i].value)
         body.style.backgroundImage = `url('assets/${planetaSelecionado[i].textContent}.jpg')`
 
-        aceleracao = (-aceleracaoGravidade * 300 / (1000) ** 2) / 10 // recalcular a aceleração aqui
+        /*aceleracao = (-aceleracaoGravidade * 300 / (1000) ** 2) / 10 // recalcular a aceleração aqui
         velocidade = 0
-        nave.style.bottom = '600px'
+        nave.style.bottom = '600px'*/
+        resetaValores()
 
         simulaQueda()
     })
+}
+
+const resetaValores = () => {
+    aceleracao = (-aceleracaoGravidade * 300 / (1000) ** 2) / 10 // recalcular a aceleração aqui
+    velocidade = 0
+    nave.style.bottom = '600px'
+}
+
+const aceleracaoPersonalizada = () => {
+    let aceleracao = Number(document.getElementById('aceleracaoPersonalizada').value)
+    aceleracaoGravidade = aceleracao
+    
+    resetaValores()
+
+    simulaQueda()
 }
 
 const RecuperaAlturaDaNave = () => {
@@ -31,13 +48,13 @@ const novaAlturaDaNave = (S0, v, t) => S0 + v * t + 0.5 * aceleracao * (t ** 2) 
 
 function simulaQueda() {
     let tempo = Date.now()
-
+    console.log(aceleracaoGravidade)
     const intervalo = setInterval(() => {
         let tempoAtual = Date.now()
         let intervaloDeTempo = tempoAtual - tempo
         tempo = tempoAtual
 
-       // console.log(intervaloDeTempo)
+        // console.log(intervaloDeTempo)
 
         const altura = RecuperaAlturaDaNave()
 
@@ -48,5 +65,5 @@ function simulaQueda() {
         nave.style.bottom = `${Math.max(novaAltura, 0)}px` // atualiza a altura da nave no estilo, não permitindo que ela vá abaixo de 0
         if (nave.style.bottom == '0px') clearInterval(intervalo)
     }, 1)
-    console.log('re')
+    //console.log('re')
 }
